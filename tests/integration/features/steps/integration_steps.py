@@ -31,7 +31,7 @@ from subprocess import PIPE
 import signal
 from cassandra import ProtocolVersion
 from cassandra.cluster import Cluster
-from ssl import SSLContext, PROTOCOL_TLS, PROTOCOL_TLSv1, PROTOCOL_TLSv1_1, PROTOCOL_TLSv1_2, CERT_REQUIRED
+from ssl import SSLContext, PROTOCOL_TLSv1, PROTOCOL_TLSv1_1, PROTOCOL_TLSv1_2, CERT_REQUIRED
 from zipfile import ZipFile
 
 import medusa.backup_node
@@ -1412,7 +1412,7 @@ def _i_delete_the_backup_named(context, backup_name, all_nodes=False):
                                backup_name=backup_name, all_nodes=all_nodes)
 
 
-def connect_cassandra(is_client_encryption_enable, tls_version=PROTOCOL_TLS):
+def connect_cassandra(is_client_encryption_enable, tls_version=PROTOCOL_TLSv1):
     connected = False
     attempt = 0
     session = None

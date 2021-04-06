@@ -33,7 +33,7 @@ from cassandra import ProtocolVersion
 from cassandra.cluster import Cluster, ExecutionProfile
 from cassandra.policies import WhiteListRoundRobinPolicy
 from cassandra.auth import PlainTextAuthProvider
-from ssl import SSLContext, PROTOCOL_TLS, CERT_REQUIRED
+from ssl import SSLContext, PROTOCOL_TLSv1, CERT_REQUIRED
 from medusa.network.hostname_resolver import HostnameResolver
 from medusa.service.snapshot import SnapshotService
 from medusa.nodetool import Nodetool
@@ -65,7 +65,7 @@ class CqlSessionProvider(object):
             self._auth_provider = auth_provider
 
         if cassandra_config.certfile is not None:
-            ssl_context = SSLContext(PROTOCOL_TLS)
+            ssl_context = SSLContext(PROTOCOL_TLSv1)
             ssl_context.load_verify_locations(cassandra_config.certfile)
             ssl_context.verify_mode = CERT_REQUIRED
             if cassandra_config.usercert is not None and cassandra_config.userkey is not None:
@@ -210,7 +210,7 @@ class CassandraConfigReader(object):
         config_file = pathlib.Path(cassandra_config or self.DEFAULT_CASSANDRA_CONFIG)
         if not config_file.is_file():
             raise RuntimeError('{} is not a file'.format(config_file))
-        with open(config_file, 'r') as f:
+        with open(str(config_file), 'r') as f:
             self._config = yaml.load(f, Loader=yaml.BaseLoader)
 
     @property
