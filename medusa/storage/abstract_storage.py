@@ -62,7 +62,9 @@ class AbstractStorage(abc.ABC):
         obj = self.driver.upload_object_via_stream(
             io.BytesIO(bytes(content, encoding)),
             container=self.bucket,
-            object_name=str(path)
+            object_name=str(path),
+            extra=None,
+            headers={'x-amz-server-side-encryption':'aws:kms'}
         )
         return medusa.storage.ManifestObject(obj.name, obj.size, obj.hash)
 

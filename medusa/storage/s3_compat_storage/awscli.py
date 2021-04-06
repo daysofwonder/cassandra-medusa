@@ -86,7 +86,8 @@ class AwsCli(object):
         objects = []
         for src in srcs:
             cmd = self._create_s3_cmd()
-            cmd.extend(["s3", "cp", str(src), "s3://{}/{}".format(bucket_name, dest)])
+            cmd.extend(["s3", "cp" , "--sse=aws:kms", str(src), "s3://{}/{}".format(bucket_name, dest)])
+
             objects.append(self.upload_file(cmd, dest, awscli_output))
 
         return objects

@@ -107,7 +107,9 @@ def _upload_single_part(connection, src, bucket, object_name):
         obj = connection.upload_object_via_stream(
             iterator,
             container=bucket,
-            object_name=object_name
+            object_name=object_name,
+            extra=None,
+            headers={'x-amz-server-side-encryption': 'aws:kms' }
         )
 
     return obj

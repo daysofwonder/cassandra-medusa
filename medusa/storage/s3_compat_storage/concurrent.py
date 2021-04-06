@@ -124,7 +124,7 @@ def __upload_file(storage, connection, src, dest, bucket, multi_part_upload_thre
 @retry(stop_max_attempt_number=MAX_UP_DOWN_LOAD_RETRIES, wait_exponential_multiplier=10000, wait_exponential_max=120000)
 def _upload_single_part(connection, src, bucket, object_name):
     obj = connection.upload_object(
-        str(src), container=bucket, object_name=object_name
+        str(src), container=bucket, object_name=object_name, extra=None, headers = {'x-amz-server-side-encryption': 'aws:kms'}
     )
 
     return obj
